@@ -1,0 +1,20 @@
+{% extends 'base_landing.html' %}
+{% block title %}Businesses - Pinterest{% endblock %}
+{% block content %}
+
+<section class="info-page">
+  <h1>Pinterest for Businesses</h1>
+  <p class="info-lede">Reach people while they're deciding what to do, buy and try next.</p>
+  <p>People come to Pinterest looking for inspiration, which makes it a natural place to showcase products and ideas. Create a business profile, share pins of your products, and connect with an audience that's actively planning their next purchase.</p>
+  <ul class="info-list">
+    <li>Showcase your products with rich, visual pins</li>
+    <li>Build boards that tell your brand's story</li>
+    <li>Reach people early, while they're still deciding</li>
+  </ul>
+
+  <div class="landing-cta">
+    <a href="{% url 'register' %}" class="btn-hero-primary">Create a business account</a>
+  </div>
+</section>
+
+{% endblock %}

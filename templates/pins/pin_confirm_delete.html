@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}Delete Pin{% endblock %}
+{% block content %}
+<div class="form-card">
+  <h1>Delete "{{ pin.title }}"?</h1>
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn-delete">Yes, delete</button>
+    <a href="{% url 'pin_detail' pin.pk %}">Cancel</a>
+  </form>
+</div>
+{% endblock %}

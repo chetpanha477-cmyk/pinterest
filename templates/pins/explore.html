@@ -1,0 +1,21 @@
+{% extends 'base_landing.html' %}
+{% block title %}Explore - Pinterest{% endblock %}
+{% block content %}
+
+<section class="info-page">
+  <h1>Explore ideas</h1>
+  <p class="info-lede">Recipes, home projects, style inspiration and more — sorted into boards by people like you. Sign up to browse the full feed and save your favorites.</p>
+
+  <div class="explore-category-grid">
+    {% for value, label in categories %}
+      <div class="explore-category-card">{{ label }}</div>
+    {% endfor %}
+  </div>
+
+  <div class="landing-cta">
+    <a href="{% url 'register' %}" class="btn-hero-primary">Join Pinterest for free</a>
+    <a href="{% url 'login' %}" class="btn-hero-secondary">I already have an account</a>
+  </div>
+</section>
+
+{% endblock %}

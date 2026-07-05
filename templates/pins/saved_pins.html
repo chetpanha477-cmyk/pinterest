@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block title %}Saved Pins{% endblock %}
+{% block content %}
+<h1 class="section-title">Saved Pins</h1>
+<div class="masonry">
+  {% include 'pins/partials/pin_grid.html' %}
+</div>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'base_landing.html' %}
+{% block title %}About - Pinterest{% endblock %}
+{% block content %}
+
+<section class="info-page">
+  <h1>About Pinterest</h1>
+  <p class="info-lede">Pinterest is a place to discover and save ideas for whatever you're into — recipes, home projects, style, and everything in between.</p>
+  <p>This project is a Django learning app inspired by Pinterest. It's built to explore how a real photo-sharing feed, user accounts, boards and saved pins work together, from the database models up to the front end.</p>
+  <p>Our mission is simple: help people find inspiration and turn ideas into action.</p>
+
+  <div class="landing-cta">
+    <a href="{% url 'register' %}" class="btn-hero-primary">Join Pinterest for free</a>
+  </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}Create Pin{% endblock %}
+{% block content %}
+<div class="form-card">
+  <h1>Create a Pin</h1>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn-create">Publish</button>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'base_landing.html' %}
+{% block title %}News - Pinterest{% endblock %}
+{% block content %}
+
+<section class="info-page">
+  <h1>News</h1>
+  <p class="info-lede">The latest updates and stories from the Pinterest team.</p>
+
+  <div class="news-item">
+    <span class="news-date">July 2026</span>
+    <h3>Infinite scroll comes to the home feed</h3>
+    <p>Signed-in members now get a feed that keeps loading fresh ideas as they scroll.</p>
+  </div>
+  <div class="news-item">
+    <span class="news-date">June 2026</span>
+    <h3>Boards, redesigned</h3>
+    <p>Organizing saved pins into boards just got a cleaner look and feel.</p>
+  </div>
+  <div class="news-item">
+    <span class="news-date">May 2026</span>
+    <h3>Welcome to Pinterest</h3>
+    <p>A fresh, Pinterest-inspired place to collect and share the ideas you love.</p>
+  </div>
+
+  <div class="landing-cta">
+    <a href="{% url 'register' %}" class="btn-hero-primary">Join Pinterest for free</a>
+  </div>
+</section>
+
+{% endblock %}

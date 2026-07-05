@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}New Board{% endblock %}
+{% block content %}
+<div class="form-card">
+  <h1>Create a Board</h1>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn-create">Create</button>
+  </form>
+</div>
+{% endblock %}

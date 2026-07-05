@@ -1,0 +1,47 @@
+{% for pin in pins %}
+  <div class="pin-card" data-pin-id="{{ pin.pk }}">
+    <a href="{% url 'pin_detail' pin.pk %}" class="pin-card-link">
+      <div class="pin-thumb">
+        <img src="{{ pin.image.url }}" alt="{{ pin.title }}" loading="lazy">
+        <div class="pin-overlay">
+          <div class="pin-overlay-top">
+            <span class="pin-chip">{{ pin.category }}</span>
+            {% if user.is_authenticated %}
+              <button type="button" class="pin-more-btn" title="More options" onclick="event.preventDefault(); event.stopPropagation();">&#8942;</button>
+            {% endif %}
+          </div>
+          <div class="pin-overlay-bottom">
+            {% if pin.link %}
+              <span class="pin-domain-chip" title="{{ pin.link }}">🔗 {{ pin.link|slice:":24" }}</span>
+            {% endif %}
+            {% if user.is_authenticated %}
+              <button type="submit" form="save-form-{{ pin.pk }}"
+                class="btn-quick-save {% if pin.pk in saved_ids %}saved{% endif %}"
+                onclick="event.stopPropagation();">
+                {% if pin.pk in saved_ids %}Saved{% else %}Save{% endif %}
+              </button>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </a>
+    {% if user.is_authenticated %}
+      <form id="save-form-{{ pin.pk }}" method="post" action="{% url 'pin_save_toggle' pin.pk %}" class="hidden-save-form">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ request.get_full_path }}">
+      </form>
+    {% endif %}
+    <div class="pin-card-meta">
+      <p class="pin-card-title">{{ pin.title }}</p>
+      <a href="{% url 'profile' pin.owner.username %}" class="pin-card-owner">
+        <span class="avatar-dot">{{ pin.owner.username|slice:":1"|upper }}</span>{{ pin.owner.username }}
+      </a>
+    </div>
+  </div>
+{% empty %}
+  {% if user.is_authenticated %}
+    <p class="empty-state">No pins yet. <a href="{% url 'pin_create' %}">Be the first to create one!</a></p>
+  {% else %}
+    <p class="empty-state">No pins found. Try a different search or category.</p>
+  {% endif %}
+{% endfor %}

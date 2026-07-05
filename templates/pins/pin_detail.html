@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% block title %}{{ pin.title }} - Pinterest{% endblock %}
+{% block content %}
+
+<div class="pin-close-row">
+  <a href="javascript:void(0)" onclick="if (document.referrer && document.referrer.indexOf(window.location.host) !== -1) { history.back(); } else { window.location.href='{% url 'home' %}'; }" class="btn-close-pin" title="Close">&times;</a>
+</div>
+
+<div class="pin-view">
+  <div class="pin-view-image">
+    <img src="{{ pin.image.url }}" alt="{{ pin.title }}">
+  </div>
+
+  <div class="pin-view-panel">
+    <div class="pin-view-toolbar">
+      {% if pin.link %}
+        <a href="{{ pin.link }}" target="_blank" rel="noopener" class="btn-visit">
+          &#8599; Visit site
+        </a>
+      {% endif %}
+      <div class="pin-view-toolbar-right">
+        {% if pin.owner == user %}
+          <a href="{% url 'pin_delete' pin.pk %}" class="icon-btn" title="Delete pin">&#128465;</a>
+        {% endif %}
+        {% if user.is_authenticated %}
+          <form method="post" action="{% url 'pin_save_toggle' pin.pk %}">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ request.get_full_path }}">
+            <button type="submit" class="btn-save {% if is_saved %}saved{% endif %}">
+              {% if is_saved %}Saved ✓{% else %}Save{% endif %}
+            </button>
+          </form>
+        {% else %}
+          <a href="{% url 'login' %}" class="btn-save">Save</a>
+        {% endif %}
+      </div>
+    </div>
+
+    <a href="?category={{ pin.category }}" class="pin-category-tag">{{ pin.category }}</a>
+    <h1>{{ pin.title }}</h1>
+    {% if pin.description %}<p class="pin-desc">{{ pin.description }}</p>{% endif %}
+
+    <a href="{% url 'profile' pin.owner.username %}" class="pin-owner-row">
+      <span class="avatar-dot big">{{ pin.owner.username|slice:":1"|upper }}</span>
+      <span>
+        <strong>{{ pin.owner.username }}</strong>
+        <span class="muted">&middot; {{ pin.save_count }} save{{ pin.save_count|pluralize }}</span>
+      </span>
+    </a>
+
+    <div class="comments">
+      <h3>{{ comments|length }} Comment{{ comments|length|pluralize }}</h3>
+      {% for c in comments %}
+        <div class="comment">
+          <span class="avatar-dot">{{ c.author.username|slice:":1"|upper }}</span>
+          <div><strong>{{ c.author.username }}</strong><p>{{ c.text }}</p></div>
+        </div>
+      {% empty %}
+        <p class="muted">No comments yet. Say something nice!</p>
+      {% endfor %}
+      {% if user.is_authenticated %}
+        <form method="post" class="comment-form">
+          {% csrf_token %}
+          {{ comment_form.text }}
+          <button type="submit">Post</button>
+        </form>
+      {% else %}
+        <p class="muted"><a href="{% url 'login' %}">Log in</a> to comment.</p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<h2 class="section-title">More like this</h2>
+<div class="masonry">
+  {% include 'pins/partials/pin_grid.html' with pins=related %}
+</div>
+
+{% endblock %}

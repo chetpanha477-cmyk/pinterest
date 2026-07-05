@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block title %}{{ board.name }}{% endblock %}
+{% block content %}
+<h1 class="section-title">{{ board.name }}</h1>
+<p class="muted">by {{ board.owner.username }}</p>
+<div class="masonry">
+  {% include 'pins/partials/pin_grid.html' %}
+</div>
+{% endblock %}

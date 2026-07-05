@@ -1,0 +1,59 @@
+{% extends 'base_landing.html' %}
+{% load static %}
+{% block title %}Pinterest - Create the life you love on Pinterest {% endblock %}
+{% block content %}
+
+<section class="landing-hero">
+  <div class="landing-hero-text">
+    <h1>
+  <span class="hero-line">Create the life you love</span>
+  <span class="hero-line">on Pinterest</span>
+    </h1>
+    <div class="landing-hero-actions">
+      <a href="{% url 'register' %}" class="btn-hero-primary">Join Pinterest for free</a>
+      <a href="{% url 'login' %}" class="btn-hero-secondary">I already have an account</a>
+    </div>
+  </div>
+  <div class="landing-hero-image">
+    <div class="collage-tile t1"><img src="https://picsum.photos/seed/pin-flowers/400/220" alt=""></div>
+    <div class="collage-tile t2"><img src="https://picsum.photos/seed/pin-leaf/300/180" alt=""></div>
+    <div class="collage-tile main"><img src="https://picsum.photos/seed/pin-main/420/620" alt=""></div>
+    <div class="collage-tile t3"><img src="https://picsum.photos/seed/pin-nails/260/320" alt=""></div>
+    <div class="collage-tile t4"><img src="https://picsum.photos/seed/pin-hoodie/340/420" alt=""></div>
+    <div class="collage-tile t5"><img src="https://picsum.photos/seed/pin-couch/320/260" alt=""></div>
+  </div>
+</section>
+
+<section class="landing-features">
+  <div class="feature-card">
+    <div class="feature-icon">🔍</div>
+    <h3>Explore</h3>
+    <p>Browse ideas across recipes, home decor, fashion and more — sign up to see the full feed.</p>
+    <a href="{% url 'explore' %}" class="feature-link">See what's trending →</a>
+  </div>
+  <div class="feature-card">
+    <div class="feature-icon">📌</div>
+    <h3>Create</h3>
+    <p>Save the ideas you find, organize them into boards, and share your own pins.</p>
+    <a href="{% url 'register' %}" class="feature-link">Start creating →</a>
+  </div>
+  <div class="feature-card">
+    <div class="feature-icon">🏢</div>
+    <h3>Businesses</h3>
+    <p>Grow your brand and reach people while they're deciding what to do, buy and try next.</p>
+    <a href="{% url 'businesses' %}" class="feature-link">Learn more →</a>
+  </div>
+  <div class="feature-card">
+    <div class="feature-icon">📰</div>
+    <h3>News</h3>
+    <p>Read the latest updates and stories from the Pinterest team.</p>
+    <a href="{% url 'news' %}" class="feature-link">Read the news →</a>
+  </div>
+</section>
+
+<section class="landing-cta">
+  <h2>Ready to find your next idea?</h2>
+  <a href="{% url 'register' %}" class="btn-hero-primary">Join Pinterest for free</a>
+</section>
+
+{% endblock %}

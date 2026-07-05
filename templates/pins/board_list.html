@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}My Boards{% endblock %}
+{% block content %}
+<div class="board-header">
+  <h1>My Boards</h1>
+  <a href="{% url 'board_create' %}" class="btn-create">+ New Board</a>
+</div>
+<div class="board-grid">
+  {% for board in boards %}
+    <a href="{% url 'board_detail' board.pk %}" class="board-card">
+      <div class="board-card-title">{{ board.name }}</div>
+      <div class="board-card-count">{{ board.pins.count }} pin{{ board.pins.count|pluralize }}</div>
+    </a>
+  {% empty %}
+    <p>No boards yet.</p>
+  {% endfor %}
+</div>
+{% endblock %}

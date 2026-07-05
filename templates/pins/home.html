@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% block title %}Pinterest - Home{% endblock %}
+{% block content %}
+
+<nav class="category-bar" id="category-bar">
+  <a href="{% url 'home' %}{% if query %}?q={{ query }}{% endif %}" class="category-pill {% if not category %}active{% endif %}">All</a>
+  {% for value, label in categories %}
+    <a href="?category={{ value }}{% if query %}&q={{ query }}{% endif %}"
+       class="category-pill {% if category == value %}active{% endif %}">{{ label }}</a>
+  {% endfor %}
+</nav>
+
+{% if query or category %}
+  <h2 class="section-title">
+    {% if query %}Results for &ldquo;{{ query }}&rdquo;{% if category %} in {{ category }}{% endif %}
+    {% else %}{{ category }}{% endif %}
+    <span class="muted">&middot; {{ total_pins }} pin{{ total_pins|pluralize }}</span>
+  </h2>
+{% endif %}
+
+<div class="masonry" id="pin-grid"
+     data-load-more-url="{% url 'load_more_pins' %}"
+     data-query="{{ query }}"
+     data-category="{{ category }}"
+     data-has-next="{{ has_next|yesno:'1,0' }}"
+     data-next-page="2">
+  {% include 'pins/partials/pin_grid.html' %}
+</div>
+
+<div id="infinite-scroll-sentinel"></div>
+<div id="feed-loading" class="feed-loading" style="display:none;">
+  <span class="spinner"></span> Loading more ideas...
+</div>
+<p id="feed-end" class="feed-end" style="display:none;">You've seen it all — that's every pin for now.</p>
+
+<script>
+(function () {
+  const grid = document.getElementById('pin-grid');
+  const sentinel = document.getElementById('infinite-scroll-sentinel');
+  const loadingEl = document.getElementById('feed-loading');
+  const endEl = document.getElementById('feed-end');
+  if (!grid) return;
+
+  let loading = false;
+  let hasNext = grid.dataset.hasNext === '1';
+  let nextPage = parseInt(grid.dataset.nextPage, 10);
+  const baseUrl = grid.dataset.loadMoreUrl;
+  const query = grid.dataset.query;
+  const category = grid.dataset.category;
+
+  function loadMore() {
+    if (loading || !hasNext) {
+      if (!hasNext) endEl.style.display = 'block';
+      return;
+    }
+    loading = true;
+    loadingEl.style.display = 'flex';
+
+    const params = new URLSearchParams();
+    params.set('page', nextPage);
+    if (query) params.set('q', query);
+    if (category) params.set('category', category);
+
+    fetch(baseUrl + '?' + params.toString(), { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+      .then((res) => res.json())
+      .then((data) => {
+        grid.insertAdjacentHTML('beforeend', data.html);
+        hasNext = data.has_next;
+        nextPage = data.next_page;
+        loading = false;
+        loadingEl.style.display = 'none';
+        if (!hasNext) endEl.style.display = 'block';
+      })
+      .catch(() => {
+        loading = false;
+        loadingEl.style.display = 'none';
+      });
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) loadMore();
+    });
+  }, { rootMargin: '600px 0px' });
+
+  observer.observe(sentinel);
+})();
+</script>
+
+{% endblock %}
