@@ -138,12 +138,12 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 STORAGES = {
     "default": {
         "BACKEND": "django.core.files.storage.FileSystemStorage",
-STATICFILES_STORAGE = STORAGES["staticfiles"]["BACKEND"]
     },
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
+STATICFILES_STORAGE = STORAGES["staticfiles"]["BACKEND"]
 
 # Media files (uploaded pin images)
 MEDIA_URL = '/media/'
@@ -159,3 +159,9 @@ if os.environ.get('CLOUDINARY_CLOUD_NAME'):
     STORAGES['default'] = {
         'BACKEND': 'cloudinary_storage.storage.MediaCloudinaryStorage',
     }
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = 'home'
